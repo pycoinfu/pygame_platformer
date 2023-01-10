@@ -1,5 +1,7 @@
-import pygame
 from typing import Sequence
+
+import pygame
+
 from src.tile import Tile
 
 
@@ -30,7 +32,7 @@ class Entity:
 
         self.pos.y += self.vel.y
         self.rect.y = round(self.pos.y)
-    
+
         for tile in tiles:
             if tile.rect.colliderect(self.rect):
                 if self.vel.y > 0:

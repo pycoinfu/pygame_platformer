@@ -1,7 +1,7 @@
-from src.tile import Tile
-
 import pygame
-import pytmx 
+import pytmx
+
+from src.tile import Tile
 
 
 class TileLayerMap:
@@ -26,9 +26,7 @@ class TileLayerMap:
         # Tiles will be filled in on render_map
         self.tiles = {}
 
-    def render_map(
-        self, surface: pygame.Surface
-    ) -> None:
+    def render_map(self, surface: pygame.Surface) -> None:
         """
         Renders the map to a given surface
         Parameters:

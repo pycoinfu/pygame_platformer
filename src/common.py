@@ -1,4 +1,5 @@
-from typing import TypeAlias, Union, Sequence
+from typing import Sequence, TypeAlias, Union
+
 import pygame
 
 Position: TypeAlias = Union[Sequence, pygame.Vector2]
