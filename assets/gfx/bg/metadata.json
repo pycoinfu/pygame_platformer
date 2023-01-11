@@ -1,0 +1,17 @@
+{
+    "bg_clouds.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "bg_land.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "bg_sky.png": {
+        "sprite_sheet": null,
+        "convert_alpha": false,
+        "states": ["level"]
+    }
+}

@@ -7,37 +7,27 @@ from src.common import TILE_SIZE, EventInfo
 from src.entity import Entity
 from src.enums import PlayerStates
 from src.tilemap import TileLayerMap
+from typing import Dict
 
 
 class Player(Entity):
-    WALK_SIZE = (20, 19)
     WALK_SPEED = 1
     IDLE_SPEED = 0.05
     SAVE_FILE = "assets/settings/player_save.json"
 
-    def __init__(self):
+    def __init__(self, assets: Dict[str, pygame.Surface]):
         super().__init__()
 
-        walk = pygame.image.load("assets/gfx/player/player_walk.png").convert_alpha()
-        idle = pygame.image.load("assets/gfx/player/player_idle.png").convert_alpha()
-        jump = pygame.image.load("assets/gfx/player/player_jump.png").convert_alpha()
+        walk_right = [pygame.transform.flip(surf, True, False) for surf in assets["player_walk"]]
+        idle_right = [pygame.transform.flip(surf, True, False) for surf in assets["player_idle"]]
+        jump_right = [pygame.transform.flip(surf, True, False) for surf in assets["player_jump"]]
         self.animations = {
-            "walk_right": Animation(
-                pygame.transform.flip(walk, True, False),
-                self.WALK_SIZE,
-                self.WALK_SPEED,
-            ),
-            "walk_left": Animation(walk, self.WALK_SIZE, self.WALK_SPEED),
-            "idle_right": Animation(
-                pygame.transform.flip(idle, True, False),
-                self.WALK_SIZE,
-                self.IDLE_SPEED,
-            ),
-            "idle_left": Animation(idle, self.WALK_SIZE, self.IDLE_SPEED),
-            "jump_right": Animation(
-                pygame.transform.flip(jump, True, False), self.WALK_SIZE, 1
-            ),
-            "jump_left": Animation(jump, self.WALK_SIZE, 1),
+            "walk_right": Animation(walk_right, self.WALK_SPEED),
+            "walk_left": Animation(assets["player_walk"], self.WALK_SPEED),
+            "idle_right": Animation(idle_right,  self.IDLE_SPEED),
+            "idle_left": Animation(assets["player_idle"], self.IDLE_SPEED),
+            "jump_right": Animation(jump_right, 1),
+            "jump_left": Animation(assets["player_jump"], 1),
         }
 
         self.load_save()
@@ -47,7 +37,7 @@ class Player(Entity):
         self.jump_height = 2.5
         self.vel = pygame.Vector2()
         self.rect = pygame.Rect(
-            self.pos, self.animations["walk_right"].frames[0].get_size()
+            self.pos, assets["player_walk"][0].get_size()
         )
 
         self.facing = "right"

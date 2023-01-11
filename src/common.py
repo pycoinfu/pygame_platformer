@@ -7,3 +7,5 @@ EventInfo: TypeAlias = dict
 
 WIDTH, HEIGHT = 320, 192
 TILE_SIZE = 16
+
+FONT_PATH = "assets/misc/PixeloidSans.ttf"

@@ -1,45 +1,17 @@
-from typing import List, Sequence
+from typing import Sequence
 
 import pygame
 
 from src.common import Position
 
 
-def get_images(
-    sheet: pygame.Surface,
-    size: Sequence[int],
-) -> List[pygame.Surface]:
-    """
-    Converts a sprite sheet to a list of surfaces
-    Parameters:
-        sheet: A pygame.Surface that contains the sprite sheet
-        size: Size of a sprite in the sprite sheet
-    """
-    images = []
-
-    width, height = size
-
-    # loop through all sprites in the sprite sheet
-    rows = int(sheet.get_height() / height)
-    columns = int(sheet.get_width() / width)
-
-    for row in range(rows):
-        for col in range(columns):
-            image = sheet.subsurface(pygame.Rect((col * width), (row * height), *size))
-
-            images.append(image)
-
-    return images
-
-
 class Animation:
     def __init__(
         self,
-        sprite_sheet: pygame.Surface,
-        sprite_size: Sequence[int],
+        frames: Sequence[pygame.Surface],
         speed: float,
     ):
-        self.frames = get_images(sprite_sheet, sprite_size)
+        self.frames = frames
         self.speed = speed
 
         self.f_len = len(self.frames)
@@ -62,3 +34,32 @@ class Animation:
     def play(self, screen: pygame.Surface, pos: Position, dt: float):
         self.update(dt)
         self.draw(screen, pos)
+
+
+class FadingImage:
+    def __init__(self, surface: pygame.Surface, speed: float, starting_alpha: int):
+        self.surface = surface
+        self.speed = speed
+        self.alpha = starting_alpha
+        self.surface.set_alpha(starting_alpha)
+        
+    def fade_in(self, dt: float):
+        self.alpha += self.speed * dt
+        # this caps the alpha to 255
+        self.alpha = min(255, self.alpha)
+        self.surface.set_alpha(self.alpha)
+    
+    def fade_out(self, dt: float):
+        self.alpha -= self.speed * dt
+        # this sets the minimum alpha at 0
+        self.alpha = max(0, self.alpha)
+        self.surface.set_alpha(self.alpha)
+    
+    def update(self, dt: float, fade_in=False, fade_out=False):
+        if fade_in:
+            self.fade_in(dt)
+        elif fade_out:
+            self.fade_out(dt)
+    
+    def draw(self, screen: pygame.Surface, pos: Position):
+        screen.blit(self.surface, pos)
