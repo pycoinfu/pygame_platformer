@@ -59,16 +59,18 @@ class Player(Entity):
 
         self.vel.x = 0
         self.state = PlayerStates.IDLE
-        if keys[pygame.K_d]:
-            self.vel.x = self.speed
-            self.facing = "right"
-            if not self.jumping:
-                self.state = PlayerStates.WALK
-        elif keys[pygame.K_a] and self.pos.x > 0:
-            self.vel.x = -self.speed
-            self.facing = "left"
-            if not self.jumping:
-                self.state = PlayerStates.WALK
+
+        if not (keys[pygame.K_d] and keys[pygame.K_a]):
+            if keys[pygame.K_d]:
+                self.vel.x = self.speed
+                self.facing = "right"
+                if not self.jumping:
+                    self.state = PlayerStates.WALK
+            elif keys[pygame.K_a] and self.pos.x > 0:
+                self.vel.x = -self.speed
+                self.facing = "left"
+                if not self.jumping:
+                    self.state = PlayerStates.WALK
 
         if not self.jumping and keys[pygame.K_SPACE]:
             self.jumping = True

@@ -47,7 +47,7 @@ class Animation:
         self.index = 0
         self.animated_once = False
 
-    def update(self, dt):
+    def update(self, dt: float):
         self.index += self.speed * dt
 
         if self.index >= self.f_len:

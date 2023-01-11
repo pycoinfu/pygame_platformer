@@ -67,7 +67,7 @@ class CameraStage(TileStage):
             dt * (self.player.pos.x - self.world_scroll.x - WIDTH / 2) / 5
         )
         self.world_scroll.y += (
-            dt * (self.player.pos.y - self.world_scroll.y - HEIGHT / 1.3) / 5
+            dt * (self.player.pos.y - self.world_scroll.y - HEIGHT / 1.4) / 5
         )
 
 
