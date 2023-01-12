@@ -1,0 +1,17 @@
+{
+    "bunny_walk.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "bunny_idle.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "bunny_jump.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    }
+}

@@ -18,7 +18,7 @@ def main():
                 pygame.quit()
                 raise SystemExit
 
-        dt = clock.tick(60) / 100
+        dt = min(clock.tick(60) / 100, 0.2)
 
         event_info = {
             "events": events,

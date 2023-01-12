@@ -1,7 +1,7 @@
 import enum
 
 
-class PlayerStates(enum.Enum):
+class EntityStates(enum.Enum):
     WALK = "walk"
     IDLE = "idle"
     JUMP = "jump"

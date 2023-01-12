@@ -166,9 +166,8 @@
  <objectgroup id="4" name="notes">
   <object id="4" class="note" x="96" y="32" width="16" height="16">
    <properties>
-    <property name="text">so the main game idea is that
-years ago there was a city and allat
-and now it's ruined</property>
+    <property name="text">just a game i've been
+working on</property>
    </properties>
   </object>
  </objectgroup>

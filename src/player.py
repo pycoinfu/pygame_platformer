@@ -4,16 +4,16 @@ from typing import Dict
 import pygame
 
 from src.animation import Animation
-from src.common import TILE_SIZE, EventInfo
+from src.common import SETTINGS_PATH, TILE_SIZE, EventInfo
 from src.entity import Entity
-from src.enums import PlayerStates
+from src.enums import EntityStates
 from src.tilemap import TileLayerMap
 
 
 class Player(Entity):
     WALK_SPEED = 1
     IDLE_SPEED = 0.05
-    SAVE_FILE = "assets/settings/player_save.json"
+    SAVE_FILE = f"{SETTINGS_PATH}/player_settings.json"
 
     def __init__(self, assets: Dict[str, pygame.Surface]):
         super().__init__()
@@ -38,40 +38,37 @@ class Player(Entity):
 
         self.load_save()
 
-        self.speed = 10
-        self.gravity = 3
-        self.jump_height = 15
         self.vel = pygame.Vector2()
         self.rect = pygame.Rect(self.pos, assets["player_walk"][0].get_size())
 
         self.facing = "right"
-        self.state = PlayerStates.IDLE
+        self.state = EntityStates.IDLE
 
     def move(self, event_info: EventInfo):
         keys = event_info["keys"]
         dt = event_info["dt"]
 
         self.vel.x = 0
-        self.state = PlayerStates.IDLE
+        self.state = EntityStates.IDLE
 
         if not (keys[pygame.K_d] and keys[pygame.K_a]):
             if keys[pygame.K_d]:
-                self.vel.x = self.speed * dt
+                self.vel.x = self.settings["speed"] * dt
                 self.facing = "right"
                 if not self.jumping:
-                    self.state = PlayerStates.WALK
+                    self.state = EntityStates.WALK
             elif keys[pygame.K_a] and self.pos.x > 0:
-                self.vel.x = -self.speed * dt
+                self.vel.x = -self.settings["speed"] * dt
                 self.facing = "left"
                 if not self.jumping:
-                    self.state = PlayerStates.WALK
+                    self.state = EntityStates.WALK
 
         if not self.jumping and keys[pygame.K_SPACE]:
             self.jumping = True
-            self.vel.y = -self.jump_height
-            self.state = PlayerStates.JUMP
+            self.vel.y = -self.settings["jump_height"]
+            self.state = EntityStates.JUMP
 
-        self.vel.y += self.gravity * dt
+        self.vel.y += self.GRAVITY * dt
 
     def update(self, event_info: EventInfo, tilemap: TileLayerMap):
         self.move(event_info)
@@ -97,9 +94,9 @@ class Player(Entity):
         """
         Save the player's position into the json save file
         """
-        save_data = {"pos": tuple(self.pos)}
+        self.settings["pos"] = tuple(self.pos)
         with open(self.SAVE_FILE, "w") as f:
-            f.write(json.dumps(save_data, indent=4))
+            f.write(json.dumps(self.settings, indent=4))
 
     def load_save(self):
         """
@@ -109,3 +106,4 @@ class Player(Entity):
             save_data = json.loads(f.read())
 
         self.pos = pygame.Vector2(save_data["pos"])
+        self.settings = save_data

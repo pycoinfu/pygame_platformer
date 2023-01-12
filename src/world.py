@@ -1,9 +1,12 @@
+import json
+
 import pygame
 
 from src.assets import load_assets
 from src.background import Background
-from src.common import HEIGHT, WIDTH, EventInfo
+from src.common import HEIGHT, SETTINGS_PATH, WIDTH, EventInfo
 from src.interactables import Note
+from src.npc import NPC
 from src.player import Player
 from src.tilemap import TileLayerMap
 
@@ -49,7 +52,32 @@ class PlayerStage(BackgroundStage):
         self.player.save()
 
 
-class InteractableStage(PlayerStage):
+class NPCStage(PlayerStage):
+    def __init__(self):
+        super().__init__()
+
+        self.npcs = {NPC("bunny", self.assets)}
+
+    def update(self, event_info: EventInfo):
+        super().update(event_info)
+
+        for npc in self.npcs:
+            npc.update(event_info, self.tilemap, self.player)
+
+    def draw(self, screen: pygame.Surface, event_info: EventInfo):
+        super().draw(screen, event_info)
+
+        for npc in self.npcs:
+            npc.draw(screen, self.world_scroll, event_info)
+
+    def save(self):
+        super().save()
+
+        for npc in self.npcs:
+            npc.save()
+
+
+class InteractableStage(NPCStage):
     def __init__(self):
         super().__init__()
 

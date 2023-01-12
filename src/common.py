@@ -10,3 +10,6 @@ WIDTH, HEIGHT = 320, 192
 TILE_SIZE = 16
 
 FONT_PATH = "assets/misc/PixeloidSans.ttf"
+SETTINGS_PATH = "assets/settings"
+NPC_SETTINGS_PATH = SETTINGS_PATH + "/npc_settings.json"
+NPC_GFX_PATH = "assets/gfx/npcs"
