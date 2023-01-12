@@ -1,18 +1,18 @@
 import pygame
 
+from src.assets import load_assets
 from src.background import Background
 from src.common import HEIGHT, WIDTH, EventInfo
+from src.interactables import Note
 from src.player import Player
 from src.tilemap import TileLayerMap
-from src.interactables import Note
-from src.assets import load_assets
 
 
 class WorldInitStage:
     def __init__(self):
         self.world_scroll = pygame.Vector2()
-        self.tilemap = TileLayerMap("assets/maps/map.tmx")
         self.assets = load_assets("level")
+        self.tilemap = TileLayerMap("assets/maps/map.tmx", self.assets)
 
 
 class BackgroundStage(WorldInitStage):
@@ -53,8 +53,11 @@ class InteractableStage(PlayerStage):
     def __init__(self):
         super().__init__()
 
-        self.notes = {Note(obj) for obj in self.tilemap.tilemap.get_layer_by_name("notes")}
-    
+        self.notes = {
+            Note(obj, self.assets["note"])
+            for obj in self.tilemap.tilemap.get_layer_by_name("notes")
+        }
+
     def update(self, event_info: EventInfo):
         super().update(event_info)
 
@@ -67,7 +70,7 @@ class InteractableStage(PlayerStage):
         for note in self.notes:
             note.draw(screen, self.world_scroll)
 
-    
+
 class TileStage(InteractableStage):
     def __init__(self):
         super().__init__()
@@ -86,10 +89,10 @@ class CameraStage(TileStage):
 
         dt = event_info["dt"]
         self.world_scroll.x += (
-            dt * (self.player.pos.x - self.world_scroll.x - WIDTH / 2) / 5
+            dt * (self.player.rect.x - round(self.world_scroll.x) - WIDTH / 2) / 5
         )
         self.world_scroll.y += (
-            dt * (self.player.rect.y - self.world_scroll.y - HEIGHT / 1.4) / 5
+            dt * (self.player.rect.y - round(self.world_scroll.y) - HEIGHT / 1.4) / 5
         )
 
 

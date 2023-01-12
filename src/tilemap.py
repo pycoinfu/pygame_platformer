@@ -1,3 +1,5 @@
+from typing import Dict
+
 import pygame
 import pytmx
 
@@ -9,7 +11,7 @@ class TileLayerMap:
     Adds some functions like render_map and make_map to enhance pytmx's tilemap
     """
 
-    def __init__(self, map_path: str):
+    def __init__(self, map_path: str, assets: Dict[str, pygame.Surface]):
         def overwritten_get_layer_by_name(name: str):
             try:
                 return self.tilemap.layernames[name]
@@ -17,6 +19,7 @@ class TileLayerMap:
                 return ()
 
         self.tilemap = pytmx.load_pygame(str(map_path))
+        self.assets = assets
 
         self.tilemap.get_layer_by_name = overwritten_get_layer_by_name
 
@@ -57,6 +60,16 @@ class TileLayerMap:
                         # Add tile instance to self.tiles
                         self.tiles[(x, y)] = tile_instance
 
+    def render_static_objects(self, surface: pygame.Surface) -> pygame.Surface:
+        layers = ("ruins",)
+        for layer in layers:
+            for obj in self.tilemap.get_layer_by_name(layer):
+                if layer == "ruins":
+                    surface.blit(
+                        self.assets[f"{layer} {int(obj.width)}x{int(obj.height)}"],
+                        (int(obj.x), int(obj.y)),
+                    )
+
     def make_map(self) -> pygame.Surface:
         """
         Makes a pygame.Surface, then render the map and return the rendered map
@@ -65,6 +78,7 @@ class TileLayerMap:
         """
 
         temp_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        self.render_static_objects(temp_surface)
         self.render_map(temp_surface)
         return temp_surface
 

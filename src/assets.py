@@ -1,7 +1,8 @@
-import pygame
-from typing import Sequence, List
-from pathlib import Path
 import json
+from pathlib import Path
+from typing import List, Sequence
+
+import pygame
 
 
 def get_images(

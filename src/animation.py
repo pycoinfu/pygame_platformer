@@ -42,24 +42,24 @@ class FadingImage:
         self.speed = speed
         self.alpha = starting_alpha
         self.surface.set_alpha(starting_alpha)
-        
+
     def fade_in(self, dt: float):
         self.alpha += self.speed * dt
         # this caps the alpha to 255
         self.alpha = min(255, self.alpha)
         self.surface.set_alpha(self.alpha)
-    
+
     def fade_out(self, dt: float):
         self.alpha -= self.speed * dt
         # this sets the minimum alpha at 0
         self.alpha = max(0, self.alpha)
         self.surface.set_alpha(self.alpha)
-    
+
     def update(self, dt: float, fade_in=False, fade_out=False):
         if fade_in:
             self.fade_in(dt)
         elif fade_out:
             self.fade_out(dt)
-    
+
     def draw(self, screen: pygame.Surface, pos: Position):
         screen.blit(self.surface, pos)

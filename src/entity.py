@@ -12,11 +12,12 @@ class Entity:
         self.vel = pygame.Vector2()
         self.jumping = False
 
-    def handle_tile_collisions(self, tiles: Sequence[Tile]):
+    def handle_tile_collisions(self, tiles: Sequence[Tile], dt: float):
         """
         Handles the tile collision
         Parameters:
             neighboring_tiles: the entity's current closest tiles
+            dt: delta time
         """
         self.pos.x += self.vel.x
         self.rect.x = round(self.pos.x)
@@ -30,7 +31,7 @@ class Entity:
                     self.rect.left = tile.rect.right
                     self.pos.x = self.rect.x
 
-        self.pos.y += self.vel.y
+        self.pos.y += self.vel.y * dt
         self.rect.y = round(self.pos.y)
 
         for tile in tiles:
