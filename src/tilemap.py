@@ -36,7 +36,7 @@ class TileLayerMap:
             surface: pygame.Surface to blit on
         """
 
-        for layer_id, layer in enumerate(self.tilemap.visible_layers):
+        for layer in self.tilemap.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, gid in layer:
                     # Gets tile properties
@@ -60,7 +60,7 @@ class TileLayerMap:
                         # Add tile instance to self.tiles
                         self.tiles[(x, y)] = tile_instance
 
-    def render_static_objects(self, surface: pygame.Surface) -> pygame.Surface:
+    def render_static_objects(self, surface: pygame.Surface):
         layers = ("ruins",)
         for layer in layers:
             for obj in self.tilemap.get_layer_by_name(layer):

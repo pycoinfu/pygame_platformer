@@ -16,7 +16,7 @@ def main():
             if event.type == pygame.QUIT:
                 world.save()
                 pygame.quit()
-                raise SystemExit
+                return
 
         dt = min(clock.tick(60) / 100, 0.2)
 
