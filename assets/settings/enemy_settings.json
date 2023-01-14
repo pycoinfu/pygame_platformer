@@ -1,0 +1,11 @@
+{
+    "cat_looter": {
+        "speed": 4,
+        "jump_height": 15,
+        "damage": 2,
+        "health": 7.5,
+        "idle_speed": 0.05,
+        "walk_speed": 0.5,
+        "radius": 150
+    }
+}
