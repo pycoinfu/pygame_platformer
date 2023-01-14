@@ -1,0 +1,17 @@
+{
+    "cat_looter_walk.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "cat_looter_idle.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    },
+    "cat_looter_jump.png": {
+        "sprite_sheet": [11, 10],
+        "convert_alpha": true,
+        "states": ["level"]
+    }
+}
